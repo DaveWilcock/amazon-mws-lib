@@ -37,24 +37,12 @@ class Products extends AmazonMWS {#
     */
    public function getMatchingProduct($arrPayloadConfig) {
       $this->arrMessagePayload['Action'] = 'GetMatchingProduct';
-      try {
-         $this->preparePayload($arrPayloadConfig);
-         $strResponse = $this->makeApiCall();
-         return $this->attemptXMLParse($strResponse);
-      } catch (Exception $objException) {
-         $this->outputExceptionData($objException);
-      }
+      return $this->processPayload($arrPayloadConfig);
    }
 
    public function listMatchingProducts($arrPayloadConfig) {
       $this->arrMessagePayload['Action'] = 'ListMatchingProducts';
-      try {
-         $this->preparePayload($arrPayloadConfig);
-         $strResponse = $this->makeApiCall();
-         return $this->attemptXMLParse($strResponse);
-      } catch (Exception $objException) {
-         $this->outputExceptionData($objException);
-      }
+      return $this->processPayload($arrPayloadConfig);
    }
 
 }

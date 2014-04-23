@@ -41,13 +41,7 @@ class Orders extends AmazonMWS {
     */
    public function listOrders($arrPayloadConfig) {
       $this->arrMessagePayload['Action'] = 'ListOrders';
-      try {
-         $this->preparePayload($arrPayloadConfig);
-         $strResponse = $this->makeApiCall();
-         return $this->attemptXMLParse($strResponse);
-      } catch (Exception $objException) {
-         $this->outputExceptionData($objException);
-      }
+      return $this->processPayload($arrPayloadConfig);
    }
 
    /**
@@ -58,13 +52,7 @@ class Orders extends AmazonMWS {
     */
    public function listOrdersByNextToken($arrPayloadConfig) {
       $this->arrMessagePayload['Action'] = 'ListOrdersByNextToken';
-      try {
-         $this->preparePayload($arrPayloadConfig);
-         $strResponse = $this->makeApiCall();
-         return $this->attemptXMLParse($strResponse);
-      } catch (Exception $objException) {
-         $this->outputExceptionData($objException);
-      }
+      return $this->processPayload($arrPayloadConfig);
    }
 
    /**
@@ -75,13 +63,7 @@ class Orders extends AmazonMWS {
     */
    public function getOrder($arrPayloadConfig) {
       $this->arrMessagePayload['Action'] = 'GetOrder';
-      try {
-         $this->preparePayload($arrPayloadConfig);
-         $strResponse = $this->makeApiCall();
-         return $this->attemptXMLParse($strResponse);
-      } catch (Exception $objException) {
-         $this->outputExceptionData($objException);
-      }
+      return $this->processPayload($arrPayloadConfig);
    }
 
    /**
@@ -92,13 +74,7 @@ class Orders extends AmazonMWS {
     */
    public function listOrderItems($arrPayloadConfig) {
       $this->arrMessagePayload['Action'] = 'ListOrderItems';
-      try {
-         $this->preparePayload($arrPayloadConfig);
-         $strResponse = $this->makeApiCall();
-         return $this->attemptXMLParse($strResponse);
-      } catch (Exception $objException) {
-         $this->outputExceptionData($objException);
-      }
+      return $this->processPayload($arrPayloadConfig);
    }
 
    /**
@@ -109,13 +85,7 @@ class Orders extends AmazonMWS {
     */
    public function listOrderItemsByNextToken($arrPayloadConfig) {
       $this->arrMessagePayload['Action'] = 'ListOrderItemsByNextToken';
-      try {
-         $this->preparePayload($arrPayloadConfig);
-         $strResponse = $this->makeApiCall();
-         return $this->attemptXMLParse($strResponse);
-      } catch (Exception $objException) {
-         $this->outputExceptionData($objException);
-      }
+      return $this->processPayload($arrPayloadConfig);
    }
 
 }
