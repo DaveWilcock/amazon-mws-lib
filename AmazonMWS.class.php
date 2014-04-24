@@ -231,6 +231,24 @@ abstract class AmazonMWS {
    }
 
    /**
+    * Process a payload
+    *
+    * Make API call, parse response XML, catch & output failure
+    *
+    * @param $arrPayloadConfig
+    * @return SimpleXMLElement
+    */
+   protected function processPayload($arrPayloadConfig) {
+      try {
+         $this->preparePayload($arrPayloadConfig);
+         $strResponse = $this->makeApiCall();
+         return $this->attemptXMLParse($strResponse);
+      } catch (Exception $objException) {
+         $this->outputExceptionData($objException);
+      }
+   }
+
+   /**
     * Different APIs, different version strings
     *
     * @return string

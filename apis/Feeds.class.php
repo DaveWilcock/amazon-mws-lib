@@ -41,13 +41,7 @@ class Feeds extends AmazonMWS {
     */
    public function submitFeed($arrPayloadConfig) {
       $this->arrMessagePayload['Action'] = 'SubmitFeed';
-      try {
-         $this->preparePayload($arrPayloadConfig);
-         $strResponse = $this->makeApiCall();
-         return $this->attemptXMLParse($strResponse);
-      } catch (Exception $objException) {
-         $this->outputExceptionData($objException);
-      }
+      return $this->processPayload($arrPayloadConfig);
    }
 
    /**
@@ -58,12 +52,6 @@ class Feeds extends AmazonMWS {
     */
    public function getFeedSubmissionResult($arrPayloadConfig) {
       $this->arrMessagePayload['Action'] = 'GetFeedSubmissionResult';
-      try {
-         $this->preparePayload($arrPayloadConfig);
-         $strResponse = $this->makeApiCall();
-         return $this->attemptXMLParse($strResponse);
-      } catch (Exception $objException) {
-         $this->outputExceptionData($objException);
-      }
+      return $this->processPayload($arrPayloadConfig);
    }
 }
