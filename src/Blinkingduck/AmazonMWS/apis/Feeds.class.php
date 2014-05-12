@@ -6,7 +6,9 @@
  * @copyright David Wilcock (blinkingduck.co.uk) 2014
  */
 
-use \Blinkingduck\AmazonMWS;
+namespace Blinkingduck\AmazonMWS\apis;
+
+use Blinkingduck\AmazonMWS;
 
 class Feeds extends AmazonMWS {
 
@@ -39,7 +41,7 @@ class Feeds extends AmazonMWS {
     * Submits a feed
     *
     * @param $arrPayloadConfig
-    * @return SimpleXMLElement
+    * @return \SimpleXMLElement
     */
    public function submitFeed($arrPayloadConfig) {
       $this->arrMessagePayload['Action'] = 'SubmitFeed';
@@ -50,7 +52,7 @@ class Feeds extends AmazonMWS {
     * Gets feed submission result
     *
     * @param $arrPayloadConfig
-    * @return SimpleXMLElement
+    * @return \SimpleXMLElement
     */
    public function getFeedSubmissionResult($arrPayloadConfig) {
       $this->arrMessagePayload['Action'] = 'GetFeedSubmissionResult';

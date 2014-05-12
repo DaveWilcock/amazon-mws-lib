@@ -1,13 +1,13 @@
 <?php
 
-require_once 'src\Blinkingduck\AmazonMWS.php';
-
 /**
  * Amazon.class.php
  * 
  * @author David Wilcock <dave.wilcock@gmail.com>
  * @copyright David Wilcock (blinkingduck.co.uk) 2014
  */
+
+namespace Blinkingduck\AmazonMWS;
 
 class Amazon {
 
@@ -43,14 +43,14 @@ class Amazon {
     *
     * @param string $strCallType
     * @param array $arrPayloadConfig
-    * @throws Exception
+    * @throws \Exception
     */
    public function call($strCallType, $arrPayloadConfig = array()){
 
       $arrBits = explode("/", $strCallType);
 
       if (count($arrBits) != 2) {
-         throw new Exception("Unknown call type passed: " . $strCallType);
+         throw new \Exception("Unknown call type passed: " . $strCallType);
       }
       $strApiSection = $arrBits[0];
       $strOperation = $arrBits[1];
@@ -58,13 +58,13 @@ class Amazon {
       if (class_exists($strApiSection)) {
          $objClass = new $strApiSection($this->arrConfig);
       } else {
-         throw new Exception("Unknown API section: " . $strApiSection);
+         throw new \Exception("Unknown API section: " . $strApiSection);
       }
 
       if (method_exists($objClass, $strOperation)) {
          return $objClass->$strOperation($arrPayloadConfig);
       } else {
-         throw new Exception("Unknown API operation: " . $strOperation);
+         throw new \Exception("Unknown API operation: " . $strOperation);
       }
 
    }

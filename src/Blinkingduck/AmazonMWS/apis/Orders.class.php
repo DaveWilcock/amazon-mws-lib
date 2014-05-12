@@ -6,7 +6,9 @@
  * @copyright David Wilcock (blinkingduck.co.uk) 2014
  */
 
-use \Blinkingduck\AmazonMWS;
+namespace Blinkingduck\AmazonMWS\apis;
+
+use Blinkingduck\AmazonMWS;
 
 class Orders extends AmazonMWS {
 
@@ -39,7 +41,7 @@ class Orders extends AmazonMWS {
     * Returns a list of all Orders based on filtering parameters.
     *
     * @param $arrPayloadConfig
-    * @return SimpleXMLElement
+    * @return \SimpleXMLElement
     */
    public function listOrders($arrPayloadConfig) {
       $this->arrMessagePayload['Action'] = 'ListOrders';
@@ -50,7 +52,7 @@ class Orders extends AmazonMWS {
     * Pagination version of listOrders
     *
     * @param $arrPayloadConfig
-    * @return SimpleXMLElement
+    * @return \SimpleXMLElement
     */
    public function listOrdersByNextToken($arrPayloadConfig) {
       $this->arrMessagePayload['Action'] = 'ListOrdersByNextToken';
@@ -61,7 +63,7 @@ class Orders extends AmazonMWS {
     * Returns detailed information about an Order
     *
     * @param $arrPayloadConfig
-    * @return SimpleXMLElement
+    * @return \SimpleXMLElement
     */
    public function getOrder($arrPayloadConfig) {
       $this->arrMessagePayload['Action'] = 'GetOrder';
@@ -72,7 +74,7 @@ class Orders extends AmazonMWS {
     * Returns detailed information about items on an Order
     *
     * @param $arrPayloadConfig
-    * @return SimpleXMLElement
+    * @return \SimpleXMLElement
     */
    public function listOrderItems($arrPayloadConfig) {
       $this->arrMessagePayload['Action'] = 'ListOrderItems';
@@ -83,7 +85,7 @@ class Orders extends AmazonMWS {
     * Pagination version of listOrderItems - rarely used!
     *
     * @param $arrPayloadConfig
-    * @return SimpleXMLElement
+    * @return \SimpleXMLElement
     */
    public function listOrderItemsByNextToken($arrPayloadConfig) {
       $this->arrMessagePayload['Action'] = 'ListOrderItemsByNextToken';

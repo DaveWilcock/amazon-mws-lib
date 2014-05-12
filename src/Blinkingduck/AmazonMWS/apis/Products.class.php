@@ -6,9 +6,11 @@
  * @copyright David Wilcock (blinkingduck.co.uk) 2014
  */
 
-use \Blinkingduck\AmazonMWS;
+namespace Blinkingduck\AmazonMWS\apis;
 
-class Products extends AmazonMWS {#
+use Blinkingduck\AmazonMWS;
+
+class Products extends AmazonMWS {
 
    protected $strApiVersion = '2011-10-01';
 
@@ -34,13 +36,19 @@ class Products extends AmazonMWS {#
     * Returns matching products for Marketplace and ASIN[]
     *
     * @param $arrPayloadConfig
-    * @return SimpleXMLElement
+    * @return \SimpleXMLElement
     */
    public function getMatchingProduct($arrPayloadConfig) {
       $this->arrMessagePayload['Action'] = 'GetMatchingProduct';
       return $this->processPayload($arrPayloadConfig);
    }
 
+   /**
+    * Lists matching products for a given query
+    *
+    * @param $arrPayloadConfig
+    * @return \SimpleXMLElement
+    */
    public function listMatchingProducts($arrPayloadConfig) {
       $this->arrMessagePayload['Action'] = 'ListMatchingProducts';
       return $this->processPayload($arrPayloadConfig);

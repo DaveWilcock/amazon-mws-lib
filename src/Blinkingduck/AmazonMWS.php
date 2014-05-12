@@ -1,17 +1,13 @@
 <?php
 
-namespace Blinkingduck;
-
-require_once 'apis/Orders.class.php';
-require_once 'apis/Feeds.class.php';
-require_once 'apis/Products.class.php';
-
 /**
  * AmazonMWS.class.php
  *
  * @author David Wilcock <dave.wilcock@gmail.com>
  * @copyright David Wilcock (blinkingduck.co.uk) 2014
  */
+
+namespace Blinkingduck;
 
 abstract class AmazonMWS {
 

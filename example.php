@@ -5,8 +5,6 @@
  *
  * Used to perform testing
  */
-require_once 'Amazon.class.php';
-require_once 'config.php';
 
 $arrConfig = array(
    'SellerId' => SELLER_ID,
@@ -51,7 +49,7 @@ $arrListMatchingProducts = array(
    'Query' => 'Apple iPod Touch'
 );
 
-$objAmazon = new Amazon($arrConfig);
+$objAmazon = new \Blinkingduck\AmazonMWS\Amazon($arrConfig);
 //$objXml = $objAmazon->call('Orders/ListOrders', $arrListOrdersPayload);
 //$objXml = $objAmazon->call('Orders/GetServiceStatus');
 //$objXml = $objAmazon->call('Orders/GetOrder', $arrGetOrderPayload);
