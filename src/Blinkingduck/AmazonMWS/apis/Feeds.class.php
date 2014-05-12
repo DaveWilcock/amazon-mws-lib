@@ -6,6 +6,8 @@
  * @copyright David Wilcock (blinkingduck.co.uk) 2014
  */
 
+use \Blinkingduck\AmazonMWS;
+
 class Feeds extends AmazonMWS {
 
    /**

@@ -1,11 +1,12 @@
 <?php
 /**
  * Products.class.php
- * 
- * @author David Wilcock <dwilcock@docnet.nu>
- * @copyright Doctor Net Ltd &copy; 2014
- * @package
+ *
+ * @author David Wilcock <dave.wilcock@gmail.com>
+ * @copyright David Wilcock (blinkingduck.co.uk) 2014
  */
+
+use \Blinkingduck\AmazonMWS;
 
 class Products extends AmazonMWS {#
 

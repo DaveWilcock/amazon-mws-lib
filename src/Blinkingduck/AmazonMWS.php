@@ -1,5 +1,7 @@
 <?php
 
+namespace Blinkingduck;
+
 require_once 'apis/Orders.class.php';
 require_once 'apis/Feeds.class.php';
 require_once 'apis/Products.class.php';

@@ -1,6 +1,6 @@
 <?php
 
-require_once 'AmazonMWS.class.php';
+require_once 'src\Blinkingduck\AmazonMWS.php';
 
 /**
  * Amazon.class.php

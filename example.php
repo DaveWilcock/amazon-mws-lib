@@ -48,7 +48,7 @@ $arrGetMatchingProductPayload = array(
 
 $arrListMatchingProducts = array(
    'MarketplaceId' => 'A1F83G8C2ARO7P',
-   'Query' => 'Tetley Tea'
+   'Query' => 'Apple iPod Touch'
 );
 
 $objAmazon = new Amazon($arrConfig);
