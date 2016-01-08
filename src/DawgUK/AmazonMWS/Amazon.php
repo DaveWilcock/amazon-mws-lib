@@ -14,12 +14,12 @@ class Amazon {
    /**
     * The application name
     */
-   const APPLICATION_NAME = 'AmazonSlim';
+   const APPLICATION_NAME = 'AmazonAPILib';
 
    /**
     * The application version
     */
-   const APPLICATION_VERSION = '0.3';
+   const APPLICATION_VERSION = '0.5';
 
    /**
     * The array of client configuration information

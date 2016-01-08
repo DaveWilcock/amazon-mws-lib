@@ -12,12 +12,17 @@ use DawgUK\AmazonMWS;
 
 class Orders extends AmazonMWS {
 
-   /**
-    * The API version
-    *
-    * @var string
-    */
    protected $strApiVersion = '2013-09-01';
+   protected $strApiName = 'Orders';
+
+   /**
+    * Gets the name of the API, e.g. "Orders" or "Feeds"
+    *
+    * @return mixed
+    */
+   protected function getApiName() {
+      return $this->strApiName;
+   }
 
    /**
     * Returns the API version
@@ -92,12 +97,4 @@ class Orders extends AmazonMWS {
       return $this->processPayload($arrPayloadConfig);
    }
 
-   /**
-    * Gets the name of the API, e.g. "Orders" or "Feeds"
-    *
-    * @return mixed
-    */
-   protected function getAPIName() {
-      return "Orders";
-   }
 }

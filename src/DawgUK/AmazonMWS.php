@@ -67,16 +67,15 @@ abstract class AmazonMWS {
          'SignatureVersion' => '2',
          'SignatureMethod' => 'HmacSHA256'
       );
-      $this->strObjectType = $this->getAPIName();
+      $this->strObjectType = $this->getApiName();
    }
 
    /**
     * Gets the service status. Standard across all APIs
     *
-    * @param $arrPayload
     * @return \SimpleXMLElement
     */
-   public function getServiceStatus($arrPayload) {
+   public function getServiceStatus() {
       $this->arrMessagePayload['Action'] = 'GetServiceStatus';
       try {
          $this->preparePayload();
@@ -308,6 +307,6 @@ abstract class AmazonMWS {
     *
     * @return mixed
     */
-   abstract protected function getAPIName();
+   abstract protected function getApiName();
 
 }

@@ -12,12 +12,17 @@ use DawgUK\AmazonMWS;
 
 class Feeds extends AmazonMWS {
 
-   /**
-    * The API version
-    *
-    * @var string
-    */
    protected $strApiVersion = '2009-01-01';
+   protected $strApiName = 'Feeds';
+
+   /**
+    * Gets the name of the API, e.g. "Orders" or "Feeds"
+    *
+    * @return mixed
+    */
+   protected function getApiName() {
+      return $this->strApiName;
+   }
 
    /**
     * Returns the API version
@@ -137,12 +142,5 @@ class Feeds extends AmazonMWS {
       $this->arrMessagePayload['Action'] = 'GetFeedSubmissionCount';
       return $this->processPayload($arrPayloadConfig);
    }
-   /**
-    * Gets the name of the API, e.g. "Orders" or "Feeds"
-    *
-    * @return mixed
-    */
-   protected function getAPIName() {
-      return "Feeds";
-   }
+
 }
