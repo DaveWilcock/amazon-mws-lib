@@ -4,10 +4,10 @@
  * AmazonMWS.class.php
  *
  * @author David Wilcock <dave.wilcock@gmail.com>
- * @copyright David Wilcock (blinkingduck.co.uk) 2014
+ * @copyright David Wilcock (roflcopter.cc) 2014, 2016
  */
 
-namespace Blinkingduck;
+namespace DawgUK;
 
 abstract class AmazonMWS {
 
@@ -47,6 +47,13 @@ abstract class AmazonMWS {
    protected $strXMLPayload = null;
 
    /**
+    * The headers from the last response
+    *
+    * @var array
+    */
+   protected $arrHeaders = array();
+
+   /**
     * Takes an array of client configuration values.
     *
     * @param array $arrConfig
@@ -56,10 +63,11 @@ abstract class AmazonMWS {
       $this->arrMessagePayload = array(
          'AWSAccessKeyId' => $this->arrConfig['AWSAccessKeyId'],
          'SellerId' => $this->arrConfig['SellerId'],
+         'MWSAuthToken' => $this->arrConfig['MWSAuthToken'],
          'SignatureVersion' => '2',
          'SignatureMethod' => 'HmacSHA256'
       );
-      $this->strObjectType = get_class($this);
+      $this->strObjectType = $this->getAPIName();
    }
 
    /**
@@ -74,7 +82,7 @@ abstract class AmazonMWS {
          $this->preparePayload();
          $strResponse = $this->makeApiCall();
          return $this->attemptXMLParse($strResponse);
-      } catch (Exception $objException) {
+      } catch (\Exception $objException) {
          $this->outputExceptionData($objException);
       }
    }
@@ -83,7 +91,7 @@ abstract class AmazonMWS {
     * Prepares the payload, ready for sending
     *
     * @param array $arrPayloadConfig
-    * @throws Exception
+    * @throws \Exception
     */
    protected function preparePayload($arrPayloadConfig = array()) {
       if (count($arrPayloadConfig)) {
@@ -96,7 +104,7 @@ abstract class AmazonMWS {
          }
       }
       if (!isset($this->arrMessagePayload['Action'])) {
-         throw new Exception("Action parameter was not set when preparing payload");
+         throw new \Exception("Action parameter was not set when preparing payload");
       }
       $this->arrMessagePayload['Timestamp'] = gmdate("Y-m-d\TH:i:s\Z");
       $this->arrMessagePayload['Version'] = $this->getApiVersion();
@@ -148,7 +156,7 @@ abstract class AmazonMWS {
     * made by Amazon
     *
     * @return mixed
-    * @throws Exception
+    * @throws \Exception
     */
    protected function makeApiCall() {
 
@@ -160,7 +168,7 @@ abstract class AmazonMWS {
          CURLOPT_URL => $this->getPostUrl(),
          CURLOPT_POST => TRUE,
          CURLOPT_POSTFIELDS => array('Content-Type: text/xml', 'User-Agent: ' . $this->arrConfig['UserAgent']),
-         CURLOPT_HEADER => FALSE, // !IMPORTANT! TRUE for debug only - setting this to true will BREAK EVERYTHING
+         CURLOPT_HEADER => TRUE,
          CURLOPT_VERBOSE => FALSE, // !IMPORTANT! TRUE for debug only - setting this to true will BREAK EVERYTHING
          CURLOPT_RETURNTRANSFER => TRUE,
          CURLOPT_SSL_VERIFYHOST => FALSE,
@@ -176,13 +184,48 @@ abstract class AmazonMWS {
       curl_setopt_array($objCurl, $arrCurlOptions);
       $strResponse = curl_exec($objCurl);
       $arrInfo = curl_getinfo($objCurl);
+      $intHeaderSize = $arrInfo['header_size'];
+      $strBody = trim(substr($strResponse, $intHeaderSize));
+      $strHeaders = substr($strResponse, 0, $intHeaderSize);
+
       if ($arrInfo['http_code'] !== 200) {
          $this->arrApiErrors['Response'] = $strResponse;
          $this->arrApiErrors['CurlInfo'] = $arrInfo;
-         throw new Exception("Curl exception: HTTP response was not a 200");
+         throw new \Exception("Curl exception: HTTP response was not a 200");
       }
 
-      return $strResponse;
+      $this->arrHeaders = $this->http_parse_headers($strHeaders);
+
+      return $strBody;
+   }
+
+   /**
+    * Turns the headers string into a nice array, keyed on the header name.
+    *
+    * @param $raw_headers
+    * @return array
+    */
+   protected function http_parse_headers ($raw_headers) {
+      $headers = [];
+
+      foreach (explode("\n", $raw_headers) as $i => $h) {
+         $h = explode(':', $h, 2);
+
+         if (isset($h[1])) {
+            $headers[$h[0]] = trim($h[1]);
+         }
+      }
+
+      return $headers;
+   }
+
+   /**
+    * Returns the headers from the last response
+    *
+    * @return array
+    */
+   public function getHeaders() {
+      return $this->arrHeaders;
    }
 
    /**
@@ -198,8 +241,8 @@ abstract class AmazonMWS {
     * Tries to parse the response as an XML document.
     *
     * @param $strResponse
-    * @return SimpleXMLElement
-    * @throws Exception
+    * @return \SimpleXMLElement
+    * @throws \Exception
     */
    protected function attemptXMLParse($strResponse) {
       libxml_use_internal_errors(TRUE);
@@ -210,7 +253,7 @@ abstract class AmazonMWS {
             $this->arrApiErrors['XML'][] = $objError->message;
          }
          libxml_clear_errors();
-         throw new Exception("An XML error occurred");
+         throw new \Exception("An XML error occurred");
       }
       libxml_use_internal_errors(FALSE);
       return $objXML;
@@ -219,9 +262,9 @@ abstract class AmazonMWS {
    /**
     * Used for debug only
     *
-    * @param Exception $objException
+    * @param \Exception $objException
     */
-   protected function outputExceptionData(Exception $objException) {
+   protected function outputExceptionData(\Exception $objException) {
       echo "An exception was caught: " . $objException->getMessage() . "\n";
       if (count($this->getLastApiErrors())) {
          print_r($this->getLastApiErrors());
@@ -234,14 +277,14 @@ abstract class AmazonMWS {
     * Make API call, parse response XML, catch & output failure
     *
     * @param $arrPayloadConfig
-    * @return SimpleXMLElement
+    * @return \SimpleXMLElement
     */
    protected function processPayload($arrPayloadConfig) {
       try {
          $this->preparePayload($arrPayloadConfig);
          $strResponse = $this->makeApiCall();
          return $this->attemptXMLParse($strResponse);
-      } catch (Exception $objException) {
+      } catch (\Exception $objException) {
          $this->outputExceptionData($objException);
       }
    }
@@ -259,5 +302,12 @@ abstract class AmazonMWS {
     * @return boolean
     */
    abstract protected function usesApiVersionInURL();
+
+   /**
+    * Gets the name of the API, e.g. "Orders" or "Feeds"
+    *
+    * @return mixed
+    */
+   abstract protected function getAPIName();
 
 }

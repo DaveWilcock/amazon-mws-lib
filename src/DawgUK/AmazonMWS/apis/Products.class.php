@@ -3,12 +3,12 @@
  * Products.class.php
  *
  * @author David Wilcock <dave.wilcock@gmail.com>
- * @copyright David Wilcock (blinkingduck.co.uk) 2014
+ * @copyright David Wilcock (roflcopter.cc) 2014, 2016
  */
 
-namespace Blinkingduck\AmazonMWS\apis;
+namespace DawgUK\AmazonMWS\apis;
 
-use Blinkingduck\AmazonMWS;
+use DawgUK\AmazonMWS;
 
 class Products extends AmazonMWS {
 
@@ -54,4 +54,12 @@ class Products extends AmazonMWS {
       return $this->processPayload($arrPayloadConfig);
    }
 
+   /**
+    * Gets the name of the API, e.g. "Orders" or "Feeds"
+    *
+    * @return mixed
+    */
+   protected function getAPIName() {
+      return "Products";
+   }
 }

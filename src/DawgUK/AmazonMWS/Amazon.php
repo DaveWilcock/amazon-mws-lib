@@ -4,10 +4,10 @@
  * Amazon.class.php
  * 
  * @author David Wilcock <dave.wilcock@gmail.com>
- * @copyright David Wilcock (blinkingduck.co.uk) 2014
+ * @copyright David Wilcock (roflcopter.cc) 2014, 2016
  */
 
-namespace Blinkingduck\AmazonMWS;
+namespace DawgUK\AmazonMWS;
 
 class Amazon {
 
@@ -27,6 +27,13 @@ class Amazon {
     * @var array
     */
    protected $arrConfig;
+
+   /**
+    * The headers from the last response
+    *
+    * @var array
+    */
+   protected $arrHeaders = array();
 
    /**
     * Builds up the UserAgent string based on application information
@@ -52,21 +59,34 @@ class Amazon {
       if (count($arrBits) != 2) {
          throw new \Exception("Unknown call type passed: " . $strCallType);
       }
-      $strApiSection = $arrBits[0];
+      $strApiSection = __NAMESPACE__ . "\\apis\\" . $arrBits[0];
       $strOperation = $arrBits[1];
 
       if (class_exists($strApiSection)) {
+         /** @var \DawgUK\AmazonMWS $objClass */
          $objClass = new $strApiSection($this->arrConfig);
       } else {
          throw new \Exception("Unknown API section: " . $strApiSection);
       }
 
       if (method_exists($objClass, $strOperation)) {
-         return $objClass->$strOperation($arrPayloadConfig);
+         $strResponse = $objClass->$strOperation($arrPayloadConfig);
+         $this->arrHeaders = $objClass->getHeaders();
+
+         return $strResponse;
       } else {
          throw new \Exception("Unknown API operation: " . $strOperation);
       }
 
+   }
+
+   /**
+    * Get the headers from the last response
+    *
+    * @return array
+    */
+   public function getHeaders() {
+      return $this->arrHeaders;
    }
 
 }
